@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CampusHub helps students organize tasks, notes and study sessions in one simple dashboard.">
+  <title>CampusHub — Student Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="CampusHub home"><span class="brand-mark">C</span><span>campus<span class="brand-light">hub</span></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <button class="nav-link active" data-view="overview"><span>▦</span> Overview</button>
+        <button class="nav-link" data-view="tasks"><span>✓</span> My tasks <span class="nav-count" id="taskNavCount">0</span></button>
+        <button class="nav-link" data-view="notes"><span>▤</span> Quick notes</button>
+        <button class="nav-link" data-view="focus"><span>◷</span> Focus room</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip-card"><div class="tip-icon">✦</div><strong>Small steps add up.</strong><p>Make today a little more productive than yesterday.</p></div>
+        <div class="profile"><div class="avatar">S</div><div><strong>Student workspace</strong><small>Personal dashboard</small></div><span class="profile-dots">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="crumbTitle">Overview</strong></div>
+        <div class="topbar-right"><span class="date-pill" id="todayDate"></span><div class="top-avatar">S</div></div>
+      </header>
+
+      <section class="view active" id="overviewView">
+        <div class="welcome-row">
+          <div><p class="eyebrow" id="greeting">YOUR STUDY SPACE</p><h1>Make room for <span>great work.</span></h1><p class="subheading">A little planning goes a long way. Here's your day at a glance.</p></div>
+          <button class="primary-btn" id="addTaskTop">＋ Add a task</button>
+        </div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Tasks completed</span><span class="stat-icon green">✓</span></div><strong id="completedStat">0</strong><small>Keep the momentum going</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Pending tasks</span><span class="stat-icon purple">◷</span></div><strong id="pendingStat">0</strong><small>One step at a time</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Quick notes</span><span class="stat-icon yellow">▤</span></div><strong id="notesStat">0</strong><small>Ideas worth keeping</small></article>
+        </div>
+        <div class="content-grid">
+          <section class="panel task-panel">
+            <div class="panel-heading"><div><p class="eyebrow">STAY ON TRACK</p><h2>Today's tasks</h2></div><button class="text-btn" data-go="tasks">View all →</button></div>
+            <div id="todayTaskList" class="task-list"></div>
+            <button class="add-inline" id="addTaskInline">＋ Add another task</button>
+          </section>
+          <section class="panel progress-panel">
+            <div class="panel-heading"><div><p class="eyebrow">YOUR PROGRESS</p><h2>Daily overview</h2></div><span class="progress-emoji">✦</span></div>
+            <div class="progress-ring" id="progressRing"><div><strong id="progressPercent">0%</strong><small>completed</small></div></div>
+            <p class="progress-caption" id="progressCaption">Start with one task. You've got this!</p>
+            <div class="legend"><span><i class="dot done-dot"></i> Completed</span><span><i class="dot todo-dot"></i> Remaining</span></div>
+          </section>
+        </div>
+        <section class="quote-strip"><span class="quote-mark">“</span><div><strong>Focus on progress, not perfection.</strong><p>Consistency beats cramming. Give yourself credit for showing up.</p></div><span class="quote-spark">✧</span></section>
+      </section>
+
+      <section class="view" id="tasksView">
+        <div class="page-heading"><div><p class="eyebrow">GET THINGS DONE</p><h1>My tasks<span>.</span></h1><p class="subheading">Keep assignments, deadlines and little to-dos in one place.</p></div><button class="primary-btn" id="addTaskPage">＋ New task</button></div>
+        <div class="panel">
+          <div class="filter-row"><div class="filter-tabs"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="active">Pending</button><button class="filter-btn" data-filter="completed">Completed</button></div><span class="muted" id="taskCountLabel">0 tasks</span></div>
+          <div id="allTaskList" class="task-list roomy"></div>
+        </div>
+      </section>
+
+      <section class="view" id="notesView">
+        <div class="page-heading"><div><p class="eyebrow">SAVE THAT THOUGHT</p><h1>Quick notes<span>.</span></h1><p class="subheading">Capture ideas before they disappear.</p></div></div>
+        <div class="note-composer panel"><input id="noteTitle" type="text" maxlength="60" placeholder="Give your note a title..." aria-label="Note title"><textarea id="noteBody" rows="3" maxlength="500" placeholder="Write something down..."></textarea><div class="composer-bottom"><small>Notes are saved in this browser.</small><button class="primary-btn" id="saveNote">Save note ↗</button></div></div>
+        <div class="notes-grid" id="notesGrid"></div>
+      </section>
+
+      <section class="view" id="focusView">
+        <div class="page-heading"><div><p class="eyebrow">DEEP WORK MODE</p><h1>Focus room<span>.</span></h1><p class="subheading">One task. One session. No distractions.</p></div></div>
+        <div class="focus-layout">
+          <div class="panel timer-panel"><div class="timer-label">POMODORO TIMER</div><div class="timer-ring"><div><strong id="timerDisplay">25:00</strong><small id="timerMode">FOCUS SESSION</small></div></div><div class="timer-modes"><button class="mode-btn active" data-minutes="25" data-mode="FOCUS SESSION">Focus 25m</button><button class="mode-btn" data-minutes="5" data-mode="SHORT BREAK">Short break 5m</button><button class="mode-btn" data-minutes="15" data-mode="LONG BREAK">Long break 15m</button></div><div class="timer-actions"><button class="primary-btn" id="timerStart">Start session</button><button class="secondary-btn" id="timerReset">Reset</button></div><p class="timer-hint">Try putting your phone away until the timer ends.</p></div>
+          <div class="panel focus-side"><div class="focus-art">✦</div><p class="eyebrow">A QUICK REMINDER</p><h2>You don't need to do it all at once.</h2><p>Pick one meaningful task and give it your full attention. Take a break when you need one.</p><div class="focus-rule"><span>01</span> Choose one task</div><div class="focus-rule"><span>02</span> Work without switching tabs</div><div class="focus-rule"><span>03</span> Take a proper break</div></div>
+        </div>
+      </section>
+      <footer class="footer">Made for student life <span>✦</span> CampusHub</footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="taskModal" aria-hidden="true">
+    <form class="modal" id="taskForm">
+      <div class="modal-heading"><div><p class="eyebrow">MAKE A PLAN</p><h2>Add a task</h2></div><button type="button" class="close-btn" id="closeModal" aria-label="Close">×</button></div>
+      <label for="taskTitle">Task name</label><input id="taskTitle" type="text" maxlength="90" placeholder="e.g. Revise Java inheritance" required>
+      <div class="form-row"><div><label for="taskCategory">Category</label><select id="taskCategory"><option>Study</option><option>Assignment</option><option>Personal</option><option>Project</option></select></div><div><label for="taskDue">Due date</label><input id="taskDue" type="date"></div></div>
+      <label for="taskPriority">Priority</label><select id="taskPriority"><option value="Normal">Normal</option><option value="High">High</option><option value="Low">Low</option></select>
+      <div class="modal-actions"><button type="button" class="secondary-btn" id="cancelModal">Cancel</button><button type="submit" class="primary-btn">Save task</button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
